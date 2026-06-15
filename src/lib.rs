@@ -6,12 +6,14 @@ pub mod system_info;
 
 use std::fmt::Debug;
 use std::io::Cursor;
+use std::path::Path;
 use std::path::PathBuf;
 use std::sync::Arc;
 
 use async_hybrid_fs::HybridDir;
 use async_hybrid_fs::HybridRead;
 use async_hybrid_fs::OpenOptions;
+use nix::fcntl::OFlag;
 use procfs_core::FromRead;
 use procfs_core::FromReadSI;
 use procfs_core::IoErrorWrapper;
@@ -40,6 +42,27 @@ pub struct AsyncProcfs {
 }
 
 impl AsyncProcfs {
+    pub async fn new() -> ProcResult<Self> {
+        Self::new_with_root("/proc").await
+    }
+
+    pub async fn new_with_root(root: impl AsRef<Path>) -> ProcResult<Self> {
+        let file = wrap_io_error!(
+            root.as_ref().to_owned(),
+            OpenOptions::new()
+                .read(true)
+                .custom_flags(OFlag::O_DIRECTORY.bits())
+                .open(&root)
+                .await
+        )?;
+        Ok(Self {
+            inner: Arc::new(AsyncProcfsState {
+                file,
+                root: root.as_ref().to_owned(),
+            }),
+        })
+    }
+
     pub(crate) fn io(&self) -> AsyncProcfsIo<'_> {
         AsyncProcfsIo::new(self)
     }
