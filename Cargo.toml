@@ -6,7 +6,7 @@ edition = "2024"
 [dependencies]
 async-stream = "0.3.6"
 async-trait = "0.1.89"
-async_hybrid_fs = { git = "https://github.com/khanhtranngoccva/async_hybrid_fs", rev = "bb45e03ff0ce852108fac7c44eeff20f2a50573f", version = "0.1.0", features = ["pending-io-futures"] }
+async_hybrid_fs = { git = "https://github.com/khanhtranngoccva/async_hybrid_fs", rev = "2c8c7efea724d804994b8f84c9b9d5f89fc63afc", version = "0.1.0", features = ["pending-io-futures"] }
 backtrace = { version = "0.3.76", optional = true }
 bitflags = "2.13.0"
 chrono = { version = "0.4.45", optional = true }
