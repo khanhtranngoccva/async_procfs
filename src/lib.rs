@@ -2,7 +2,7 @@ pub(crate) mod helpers;
 pub mod process;
 pub(crate) mod runtime;
 pub mod sys;
-mod system_info;
+pub mod system_info;
 
 use std::fmt::Debug;
 use std::io::Cursor;
@@ -12,7 +12,6 @@ use std::sync::Arc;
 use async_hybrid_fs::HybridDir;
 use async_hybrid_fs::HybridRead;
 use async_hybrid_fs::OpenOptions;
-use helpers::AsyncProcfsIo;
 use procfs_core::FromRead;
 use procfs_core::FromReadSI;
 use procfs_core::IoErrorWrapper;
@@ -20,6 +19,7 @@ use procfs_core::SystemInfoInterface;
 use sys::AsyncProcfsSys;
 use tokio::fs::File;
 
+pub use helpers::AsyncProcfsIo;
 pub use procfs_core::ProcError;
 pub use procfs_core::ProcErrorExt;
 pub use procfs_core::ProcResult;
